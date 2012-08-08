@@ -23,7 +23,11 @@ namespace XmlIndenter
                 if (File.Exists(args[0]))
                 {
                     var doc = XDocument.Load(args[0]);
-                    File.Move(args[0], args[0] + ".bak");
+                    var bakFile = Path.GetTempFileName();
+                    File.Delete(bakFile);
+                    bakFile = bakFile + ".xml";
+                    File.Move(args[0], bakFile);
+                    Console.WriteLine("Your backup is at {0}", bakFile);
                     doc.Save(args[0]);
                 }
                 else
